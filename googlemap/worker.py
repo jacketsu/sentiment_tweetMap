@@ -1,5 +1,6 @@
-from multiprocessing import Pool
-import multiprocessing
+# from multiprocessing import Pool
+# import multiprocessing
+import threading
 import os
 import time
 # import pdb; pdb.set_trace()
@@ -68,7 +69,7 @@ def worker():
 					# producer.send('sns', json.dumps(msg).encode('utf-8'))
 					# 	print("snsMessage: " + msg.value)
 					sns_msg = json.dumps({"default":json.dumps(msg)})
-					sns.publish(TargetArn=arn, MessageStructure='json', Message=sns_msg)
+					# sns.publish(TargetArn=arn, MessageStructure='json', Message=sns_msg)
 					print(msg)
 
 				# if len(messages)>0:
@@ -97,13 +98,16 @@ def worker():
 				# else:
 				#     time.sleep(1)
 print("begin")
-pool = Pool(10)
+# pool = Pool(10)
 for i in range(11):
-	pool.apply_async(worker)
-	print("begin")
-pool.close()
-pool.join()
-pool = multiprocessing.Pool(1, worker)
+	thread = threading.Thread(target=worker, name="worker")
+	thread.start()
+	thread.join()
+# 	pool.apply_async(worker)
+# 	print("begin")
+# pool.close()
+# pool.join()
+# pool = multiprocessing.Pool(1, worker)
 print('all done')
 
 while True:
