@@ -81,16 +81,16 @@ def read_config(config_file):
 
     return (consumer_key, consumer_secret, access_token, access_token_secret)
 
-def listen_sns():
-    print("listenning")
-    consumer = KafkaConsumer(bootstrap_servers='localhost:9092',
-                                                 auto_offset_reset='largest')
-    consumer.subscribe(['sns'])
-    print("listenning")
-    while True:
-        for message in consumer:
-            print(message)
-            message = json.loads(message.value.decode())
-            observer.flush_tweet(message)
+# def listen_sns():
+#     print("listenning")
+#     consumer = KafkaConsumer(bootstrap_servers='localhost:9092',
+#                                                  auto_offset_reset='largest')
+#     consumer.subscribe(['sns'])
+#     print("listenning")
+#     while True:
+#         for message in consumer:
+#             print(message)
+#             message = json.loads(message.value.decode())
+#             observer.flush_tweet(message)
 
 

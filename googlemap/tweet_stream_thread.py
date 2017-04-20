@@ -20,8 +20,8 @@ class TweetStreamThread:
         t = threading.Thread(target=self.stream_thread);
         t.setDaemon(True)
         t.start()
-        q = threading.Thread(target=tweet_streamer.listen_sns)
-        q.setDaemon(True)
-        q.start()
+        # q = threading.Thread(target=tweet_streamer.listen_sns)
+        # q.setDaemon(True)
+        # q.start()
 
 

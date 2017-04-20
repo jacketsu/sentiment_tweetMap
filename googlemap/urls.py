@@ -9,5 +9,5 @@ urlpatterns = [
     url(r'^ajax/search', views.search, name='search'),
     url(r'^ajax/geosearch', views.geosearch, name='geosearch'),
     url(r'^ajax/first_fetch', views.first_fetch, name='first_fetch'),
-    # url(r'^sns', views.sns_parse, name='sns_parse')
+    url(r'^sns', views.sns_parse, name='sns_parse')
 ]

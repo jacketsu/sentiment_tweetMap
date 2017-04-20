@@ -97,29 +97,29 @@ def geosearch(request):
     response = json.dumps(response)
     return HttpResponse(response, content_type='application/json')
 
-# @csrf_exempt
-# def sns_parse(request):
-#     print("get a notification")
-#     if request.method=="GET":
-#         print("get")
-#         pass
-#         # context = {"title":"Home"}
-#         # return render(request, "index.html", context)
-#     else:
-#         headers = json.loads(request.body.decode('utf-8'))
-#         print("get sns post request")
-#         if 'Type' in headers.keys():
-#             if headers['Type']=="SubscriptionConfirmation":
-#                 print("received confirmation request")
-#                 subscribeUrl = headers['SubscribeURL']
-#                 responseData = urllib.request.urlopen(subscribeUrl).read()
-#                 print("subscribed to sns")
-#             elif headers['Type']=="Notification":
-#                 print ("received a new message: "+str(headers['Message']))
-#                 message = json.loads(json.loads(headers['Message']).get('default'))
-#                 print ("Message :"+str(message))
-#                 observer.flush_tweet(message)
-#     return render(request, 'googlemap/index.html')
+@csrf_exempt
+def sns_parse(request):
+    print("get a notification")
+    if request.method=="GET":
+        print("get")
+        pass
+        # context = {"title":"Home"}
+        # return render(request, "index.html", context)
+    else:
+        headers = json.loads(request.body.decode('utf-8'))
+        print("get sns post request")
+        if 'Type' in headers.keys():
+            if headers['Type']=="SubscriptionConfirmation":
+                print("received confirmation request")
+                subscribeUrl = headers['SubscribeURL']
+                responseData = urllib.request.urlopen(subscribeUrl).read()
+                print("subscribed to sns")
+            elif headers['Type']=="Notification":
+                print ("received a new message: "+str(headers['Message']))
+                message = json.loads(json.loads(headers['Message']).get('default'))
+                print ("Message :"+str(message))
+                observer.flush_tweet(message)
+    return render(request, 'googlemap/index.html')
     # return render(request, 'googlemap/index.html', {'post_params': str(request.POST)})
 
         #         id = message.get('id')
