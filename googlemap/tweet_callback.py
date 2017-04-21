@@ -13,6 +13,7 @@ class TweetCallback():
     def notify(self, tweet):
         self.tweet_list.append(tweet)
         print (len(self.tweet_list))
+        print("add a tweet")
         if len(self.tweet_list) == self.collect_freq:
             self.save_tweets()
 

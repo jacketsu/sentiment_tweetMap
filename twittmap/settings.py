@@ -29,7 +29,8 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'twittmap-env.f2xpr2cnnc.us-east-1.elasticbeanstalk.com',
     'localhost',
-    '3ad58ea4.ngrok.io'
+    '3ad58ea4.ngrok.io',
+    'e3891de4.ngrok.io'
 ]
 
 

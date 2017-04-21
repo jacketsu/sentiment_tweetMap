@@ -31,7 +31,8 @@ class TweetStreamListener(tweepy.StreamListener):
                     'sentiment': ''
                 }
                 # observer.flush_tweet(tweet)
-                # print(tweet)
+                print(tweet['name'])
+                print(tweet)
                 print("hello")
                 producer.send('tweets', json.dumps(tweet).encode('utf-8'))
                 # print(tweet)

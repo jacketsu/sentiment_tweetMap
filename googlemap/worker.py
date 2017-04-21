@@ -17,7 +17,7 @@ natural_language_understanding = NaturalLanguageUnderstandingV1(
 		username='82e07fd0-a7ec-41b6-978c-b33ebb5d2826',
 		password='4KvREkMTNRbu')
 
-sns = boto3.client('sns')
+sns = boto3.client('sns', region_name='us-east-1')
 arn = 'arn:aws:sns:us-east-1:164250278793:sns'
 # consumer = KafkaConsumer(bootstrap_servers='localhost:9092',
 # 												 auto_offset_reset='earliest')
@@ -57,8 +57,8 @@ def worker():
 					# 	emotion = (json.dumps(res['sentiment']['document']['label'], indent=2))
 					# 	print(emotion)
 
-					# # # # 	res = alchemyapi.sentiment('text', text)
-					# # # # 	emotion = res.get('docSentiment').get('type')
+					# # # # # 	res = alchemyapi.sentiment('text', text)
+					# # # # # 	emotion = res.get('docSentiment').get('type')
 					# except Exception as e:
 					# 	print("ERROR: " + str(e))
 					# 	emotion = "neutral"
@@ -68,8 +68,9 @@ def worker():
 					# print(msg)
 					# producer.send('sns', json.dumps(msg).encode('utf-8'))
 					# 	print("snsMessage: " + msg.value)
+					# sns_msg = json.dumps({"default":json.dumps(msg)})
 					sns_msg = json.dumps({"default":json.dumps(msg)})
-					# sns.publish(TargetArn=arn, MessageStructure='json', Message=sns_msg)
+					sns.publish(TargetArn=arn, MessageStructure='json', Message=sns_msg)
 					print(msg)
 
 				# if len(messages)>0:
@@ -99,10 +100,10 @@ def worker():
 				#     time.sleep(1)
 print("begin")
 # pool = Pool(10)
-for i in range(11):
+for i in range(3):
 	thread = threading.Thread(target=worker, name="worker")
 	thread.start()
-	thread.join()
+	# thread.join()
 # 	pool.apply_async(worker)
 # 	print("begin")
 # pool.close()
