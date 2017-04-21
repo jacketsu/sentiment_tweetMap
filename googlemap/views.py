@@ -15,10 +15,10 @@ from .tweet_stream_thread import TweetStreamThread
 from kafka import KafkaConsumer, KafkaProducer
 from .tweet_observer import TweetObserver
 
-observer = TweetObserver()
+# observer = TweetObserver()
 es = ElasticsearchWrapper()
-
-stream_thread = TweetStreamThread(TweetCallback(es, 5))
+callback = TweetCallback(es, 5)
+stream_thread = TweetStreamThread(callback)
 stream_thread.start_thread()
 
 # consumer = KafkaConsumer(bootstrap_servers='localhost:9092',
@@ -116,7 +116,7 @@ def sns_parse(request):
                 print("subscribed to sns")
             elif headers['Type']=="Notification":
                 # print ("received a new message: "+str(headers['Message']))
-                message = json.loads(headers['Message']).get('default')
+                message = headers['Message']
                 message = json.loads(message)
                 # message = json.loads(json.loads(headers['Message']).get('default'))
                 print("get a notification")
@@ -124,6 +124,7 @@ def sns_parse(request):
                 # print(message)
                 # msg = json.loads(message)
                 # observer.flush_tweet(message)
+                callback.notify(message)
                 print(message['sentiment'])
                 # print ("Message :"+str(message))
                 # observer.flush_tweet(message)

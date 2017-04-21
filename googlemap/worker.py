@@ -52,19 +52,19 @@ def worker():
 					# text = json.dumps(msg['text'])
 					# print(text)
 
-					# try:
-					# 	res = natural_language_understanding.analyze(text=text, features=[features.Sentiment()])
-					# 	emotion = (json.dumps(res['sentiment']['document']['label'], indent=2))
-					# 	print(emotion)
+					try:
+						res = natural_language_understanding.analyze(text=text, features=[features.Sentiment()])
+						emotion = (json.dumps(res['sentiment']['document']['label'], indent=2))
+						print(emotion)
 
 					# # # # # 	res = alchemyapi.sentiment('text', text)
 					# # # # # 	emotion = res.get('docSentiment').get('type')
-					# except Exception as e:
-					# 	print("ERROR: " + str(e))
-					# 	emotion = "neutral"
-					# 	print(emotion)
-					# msg["sentiment"] = emotion
-					msg["sentiment"] = "neutral"
+					except Exception as e:
+						print("ERROR: " + str(e))
+						emotion = "neutral"
+						print(emotion)
+					msg["sentiment"] = emotion
+					# msg["sentiment"] = "neutral"
 					# print(msg)
 					# producer.send('sns', json.dumps(msg).encode('utf-8'))
 					# 	print("snsMessage: " + msg.value)
