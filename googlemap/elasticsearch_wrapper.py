@@ -72,7 +72,9 @@ class ElasticsearchWrapper:
                 }
             }
         }
+        print(location)
         search_address = '%s/_search' % (self.address)
+        print(search_address)
         response = requests.post(search_address, data=json.dumps(data))
         return response.json()
         

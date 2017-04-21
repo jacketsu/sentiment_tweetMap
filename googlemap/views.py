@@ -93,6 +93,7 @@ def geosearch(request):
 
     response = es.geosearch(location, distance, 2000)# search at most 2000 tweets
     print ('geosearch response: %s' % response)
+    response = json.loads(response)
     response = response['hits']['hits']
     response = json.dumps(response)
     return HttpResponse(response, content_type='application/json')
