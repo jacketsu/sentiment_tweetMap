@@ -1,18 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-#from . import tweet_streamer
-
 import time
 import json
-import urllib
+import urllib2
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from .elasticsearch_wrapper import ElasticsearchWrapper
 from .tweet_callback import TweetCallback
-#from .tweet_stream_thread import TweetStreamThread
 from kafka import KafkaConsumer, KafkaProducer
-#from .tweet_observer import TweetObserver
 
 es = ElasticsearchWrapper("../setup.cfg")
 callback = TweetCallback(es, 5)
@@ -79,7 +75,8 @@ def sns_parse(request):
             if headers['Type']=="SubscriptionConfirmation":
                 print("received confirmation request")
                 subscribeUrl = headers['SubscribeURL']
-                responseData = urllib.request.urlopen(subscribeUrl).read()
+                responseData = urllib2.urlopen(subscribeUrl).read()
+#                responseData = urllib.request.urlopen(subscribeUrl).read()
                 print("subscribed to sns")
             elif headers['Type']=="Notification":
 
