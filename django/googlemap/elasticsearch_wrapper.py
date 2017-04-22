@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import json, requests
 
 from six.moves import configparser

@@ -3,7 +3,7 @@ Show sentiments in tweets on Google map.
 
 ## Tech Stack
 * Django: Python web framework
-* Google Map APIs, Twitter Streaming APIs, Sentiment Analysis API
+* Google Map APIs, Twitter Streaming APIs, IBM Natural Language Understanding API
 * Kafka
 * Elasticsearch
 
