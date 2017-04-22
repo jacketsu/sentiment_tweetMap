@@ -7,18 +7,20 @@ import json
 from getpass import getpass
 from datetime import datetime
 from six.moves import configparser
-from kafka import KafkaConsumer, KafkaProducer
-
-TIMEZONE_OFFSET = datetime.utcnow() - datetime.now()
-producer = KafkaProducer(bootstrap_servers='localhost:9092', api_version=(0,10))
+from kafka import KafkaProducer
 
 class TweetStreamListener(tweepy.StreamListener):
+
+    def __init__(self, kafka_producer):
+        tweepy.StreamListener.__init__(self)
+        self.kafka_producer = kafka_producer
+        self.TIMEZONE_OFFSET = datetime.utcnow() - datetime.now()
 
     def on_status(self, status):
         try:
             coords = status.coordinates["coordinates"]
             if coords is not None:
-                local_created_time = status.created_at - TIMEZONE_OFFSET;
+                local_created_time = status.created_at - self.TIMEZONE_OFFSET;
                 tweet = {
                     'name': status.author.screen_name,
                     'time': local_created_time.strftime("%Y/%m/%d %H:%M:%S"),
@@ -28,7 +30,7 @@ class TweetStreamListener(tweepy.StreamListener):
                     'sentiment': ''
                 }
 #                print ("sending tweets to kafka")
-                producer.send('tweets', json.dumps(tweet).encode('utf-8'))
+                self.kafka_producer.send('tweets', json.dumps(tweet).encode('utf-8'))
                 return True
 
         except:
@@ -44,14 +46,14 @@ class TweetStreamListener(tweepy.StreamListener):
         print ('Snoozing Zzzzzz')
 
 
-def start_stream():
-    consumer_key, consumer_secret, access_token, access_token_secret = read_config('../setup.cfg')
+def start_stream(kafka_producer, config_filename):
+    consumer_key, consumer_secret, access_token, access_token_secret = read_config(config_filename)
 
     auth = tweepy.auth.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
 
     global stream
-    stream = tweepy.Stream(auth, TweetStreamListener(), timeout=None)
+    stream = tweepy.Stream(auth, TweetStreamListener(kafka_producer), timeout=None)
     stream.filter(locations=[-180, -90, 180, 90], languages=['en'])
 
 def stop_stream():
@@ -71,4 +73,8 @@ def read_config(config_file):
 
     return (consumer_key, consumer_secret, access_token, access_token_secret)
 
-start_stream()
+
+if __name__ == "__main__":
+    producer = KafkaProducer(bootstrap_servers='localhost:9092', api_version=(0,10))
+    start_stream(producer, '../setup.cfg')
+
