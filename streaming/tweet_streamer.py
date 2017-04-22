@@ -27,7 +27,7 @@ class TweetStreamListener(tweepy.StreamListener):
                     'profile_image_url': status.author.profile_image_url,
                     'sentiment': ''
                 }
-                print ("sending tweets to kafka")
+#                print ("sending tweets to kafka")
                 producer.send('tweets', json.dumps(tweet).encode('utf-8'))
                 return True
 
