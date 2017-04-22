@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+from __future__ import print_function
 import time
 import tweepy
 import json
@@ -7,11 +7,8 @@ import json
 from getpass import getpass
 from datetime import datetime
 from six.moves import configparser
-from .tweet_observer import TweetObserver
 from kafka import KafkaConsumer, KafkaProducer
-import threading
 
-observer = TweetObserver()
 TIMEZONE_OFFSET = datetime.utcnow() - datetime.now()
 producer = KafkaProducer(bootstrap_servers='localhost:9092', api_version=(0,10))
 
@@ -30,13 +27,8 @@ class TweetStreamListener(tweepy.StreamListener):
                     'profile_image_url': status.author.profile_image_url,
                     'sentiment': ''
                 }
-                # observer.flush_tweet(tweet)
-                # print(tweet['name'])
-                # print(tweet)
-                print("hello")
+                print ("sending tweets to kafka")
                 producer.send('tweets', json.dumps(tweet).encode('utf-8'))
-                # print(tweet)
-
                 return True
 
         except:
@@ -52,11 +44,8 @@ class TweetStreamListener(tweepy.StreamListener):
         print ('Snoozing Zzzzzz')
 
 
-def register_callback(callback):
-    observer.register_callback(callback)
-
 def start_stream():
-    consumer_key, consumer_secret, access_token, access_token_secret = read_config('setup.cfg')
+    consumer_key, consumer_secret, access_token, access_token_secret = read_config('../setup.cfg')
 
     auth = tweepy.auth.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
@@ -67,7 +56,7 @@ def start_stream():
 
 def stop_stream():
     print ('stopping stream...')
-    observer.save_tweets()
+ #   observer.save_tweets()
     global stream
     stream.disconnect()
 
@@ -82,16 +71,4 @@ def read_config(config_file):
 
     return (consumer_key, consumer_secret, access_token, access_token_secret)
 
-# def listen_sns():
-#     print("listenning")
-#     consumer = KafkaConsumer(bootstrap_servers='localhost:9092',
-#                                                  auto_offset_reset='largest')
-#     consumer.subscribe(['sns'])
-#     print("listenning")
-#     while True:
-#         for message in consumer:
-#             print(message)
-#             message = json.loads(message.value.decode())
-#             observer.flush_tweet(message)
-
-
+start_stream()

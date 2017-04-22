@@ -4,9 +4,9 @@ import json, requests
 from six.moves import configparser
 
 class ElasticsearchWrapper:
-    def __init__(self):
+    def __init__(self, config_file):
         config = configparser.ConfigParser()
-        config.read("setup.cfg")
+        config.read(config_file)
 
         self.end_point = config.get('Elasticsearch', 'end_point')
         self.index = config.get('Elasticsearch', 'index')
