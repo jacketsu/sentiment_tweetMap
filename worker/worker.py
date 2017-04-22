@@ -34,10 +34,11 @@ def worker():
                                 print("ERROR: " + str(e))
                                 emotion = "neutral"
                                 print(emotion)
-                                msg["sentiment"] = emotion
-                                sns_msg = json.dumps({"default":json.dumps(msg)})
-                                sns.publish(TargetArn=arn, MessageStructure='json', Message=sns_msg)
-                                print(msg)
+
+                        msg["sentiment"] = emotion
+                        sns_msg = json.dumps({"default":json.dumps(msg)})
+                        sns.publish(TargetArn=arn, MessageStructure='json', Message=sns_msg)
+                        print(msg)
 
 
 
