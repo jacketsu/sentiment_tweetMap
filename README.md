@@ -23,4 +23,3 @@ See [requirements.txt](requirements.txt)
 	* `Kafka/`: it starts a zookeeper server and then a kafka server.
 * **AWS Elastic beanstalk**
 	* `django/`: contains the django web application.
-
