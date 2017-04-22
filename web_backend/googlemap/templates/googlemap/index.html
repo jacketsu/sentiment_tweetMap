@@ -141,12 +141,30 @@
                   continue;
                 }
                 var loc = tweet.location;
+                var sentimentIcon;
+                var str;
+                var reg = new RegExp('"',"g");
+                var str = tweet["sentiment"].replace(reg, "");
+                console.log(str);
+                console.log("good")
+                switch(str) {
+                  case "positive":
+                      sentimentIcon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+                      break;
+                  case "negative":
+                      sentimentIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+                      break;
+                  default:
+                      sentimentIcon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+                      break;
+                }
 
                 var latLng = new google.maps.LatLng(loc.lat, loc.lon);
                 var marker = new google.maps.Marker({
                   position: latLng,
                   map: map,
                   draggable: false,
+                  icon: sentimentIcon,
                   // animation: google.maps.Animation.DROP,
                 });
                 
@@ -228,12 +246,31 @@
                 // var loc = tweet.location;
                 var loc = tweet["location"];
 
+                var sentimentIcon;
+                var str;
+                var reg = new RegExp('"',"g");
+                var str = tweet["sentiment"].replace(reg, "");
+                console.log(str);
+                console.log("good")
+                switch(str) {
+                  case "positive":
+                      sentimentIcon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+                      break;
+                  case "negative":
+                      sentimentIcon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+                      break;
+                  default:
+                      sentimentIcon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+                      break;
+                }
+
                 // var latLng = new google.maps.LatLng(loc.lat, loc.lon);
                 var latLng = new google.maps.LatLng(loc["lat"], loc["lon"]);
                 var marker = new google.maps.Marker({
                   position: latLng,
                   map: map,
                   draggable: false,
+                  icon: sentimentIcon,
                   // animation: google.maps.Animation.DROP,
                 });
                 
