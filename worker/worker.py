@@ -11,11 +11,11 @@ from kafka import KafkaConsumer
 
 natural_language_understanding = NaturalLanguageUnderstandingV1(
     version='2017-02-27',
-    username='82e07fd0-a7ec-41b6-978c-b33ebb5d2826',
+    username='82e07fd0-a7ec-41b6-b33ebb5d2826',
     password='4KvREkMTNRbu')
 
 sns = boto3.client('sns', region_name='us-east-1')
-arn = 'arn:aws:sns:us-east-1:164250278793:sns'
+arn = 'arn:aws:sns:us-east-1:16425093:sns'
 worker_num = 10
 
 def worker():
